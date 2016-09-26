@@ -13,9 +13,9 @@ var put = function *() {
     return;
   }
 
-  console.log('form ' + id + 'registered');
+  console.log('form ' + id + ' registered');
   forms[id] = form;
-  results[uid] = {};
+  results[id] = {};
   this.body = null;
   this.status = 201;
 }

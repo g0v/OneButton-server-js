@@ -1,0 +1,20 @@
+{
+  "name": "onebutton-server-js",
+  "version": "0.0.1",
+  "description": "A small backend for g0v/OneButton",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/g0v/OneButton-server-js.git"
+  },
+  "author": "caasi Huang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/g0v/OneButton-server-js/issues"
+  },
+  "homepage": "https://github.com/g0v/OneButton-server-js#readme"
+}

@@ -1,3 +1,5 @@
+var Base64 = require('js-base64').Base64;
+var ethercalc = require('../ethercalc');
 var forms = {};
 var results = {};
 
@@ -14,6 +16,8 @@ var put = function *() {
   }
 
   console.log('form ' + id + ' registered');
+  res = yield ethercalc.createRoom(id);
+  console.log('https://ethercalc.org' + res.textString + ' created');
   forms[id] = form;
   results[id] = {};
   this.body = null;
@@ -42,6 +46,8 @@ var post = function *() {
   }
 
   console.log('result ' + token + ' of form ' + uid + ' received');
+  yield ethercalc.appendRow(uid, token + ', ' + Base64.encode(JSON.stringify(result)));
+  console.log('row appended');
   results[uid][token] = result;
 };
 

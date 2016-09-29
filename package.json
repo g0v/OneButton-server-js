@@ -21,6 +21,10 @@
   },
   "homepage": "https://github.com/g0v/OneButton-server-js#readme",
   "dependencies": {
+    "es6-promise": "^4.0.3",
+    "http-client": "^4.1.1",
+    "isomorphic-fetch": "^2.2.1",
+    "js-base64": "^2.1.9",
     "koa": "^1.2.4",
     "koa-bodyparser": "^2.2.0",
     "koa-json": "^1.1.3",

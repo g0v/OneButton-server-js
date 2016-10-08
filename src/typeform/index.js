@@ -1,7 +1,40 @@
 var Base64 = require('js-base64').Base64;
 var ethercalc = require('../ethercalc');
+
+// XXX: lame
+var hubId;
 var forms = {};
 var results = {};
+
+var init = function(hid) {
+  var _loadAll = function(roomList) {
+    var obj = roomList[0] || {};
+    var id = obj.id;
+    var form = obj.form;
+    var rs = roomList.slice(1);
+    return id !== undefined
+      ? ethercalc.loadRoom(id)
+          .then(function (room) {
+            // XXX: should serialize forms first
+            forms[id] = form;
+            results[id] = room;
+            return _loadAll(rs);
+          })
+      : Promise.resolve(true);
+  };
+
+  hubId = hid;
+
+  return ethercalc.loadRoomList(hid)
+    .then(_loadAll)
+    .then(function () {
+      return {
+        hubId: hubId,
+        forms: forms,
+        results: results
+      };
+    });
+};
 
 var put = function *() {
   var form = this.request.body;
@@ -15,10 +48,12 @@ var put = function *() {
     return;
   }
 
+  yield ethercalc.appendRow(hubId, id + ',' + Base64.encode(JSON.stringify(form)));
+  forms[id] = form;
   console.log('form ' + id + ' registered');
+
   res = yield ethercalc.createRoom(id);
   console.log('https://ethercalc.org' + res.textString + ' created');
-  forms[id] = form;
   results[id] = {};
   this.body = null;
   this.status = 201;
@@ -46,16 +81,21 @@ var post = function *() {
   }
 
   console.log('result ' + token + ' of form ' + uid + ' received');
-  yield ethercalc.appendRow(uid, token + ', ' + Base64.encode(JSON.stringify(result)));
+  yield ethercalc.appendRow(uid, token + ',' + Base64.encode(JSON.stringify(result)));
   console.log('row appended');
   results[uid][token] = result;
 };
 
 var get = function *() {
-  this.body = results;
+  this.body = {
+    hubId: hubId,
+    forms: forms,
+    results: results
+  };
 };
 
 module.exports = {
+  init: init,
   put: put,
   get: get,
   post: post

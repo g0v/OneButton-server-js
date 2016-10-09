@@ -1,19 +1,20 @@
-var koa = require('koa');
-var route = require('koa-route');
-var bodyParser = require('koa-bodyparser');
-var json = require('koa-json');
-var app = module.exports = koa();
-var typeform = require('./typeform');
-var path = require('path');
-var config = require(path.resolve(__dirname, '../config.js'));
+import 'babel-polyfill'
+import koa from 'koa'
+import route from 'koa-route'
+import bodyParser from 'koa-bodyparser'
+import json from 'koa-json'
+import * as typeform from './typeform'
+import path from 'path'
+import config from '../config.js'
 
-var port = process.env.PORT || 8080;
+let app = module.exports = koa()
+let port = process.env.PORT || 8080
 
 if (!module.parent) {
   typeform.init(config.TYPEFORM.hub)
     .then(function (cxt) {
-      console.log('server is listening on port ' + port);
-      console.log(cxt);
+      console.log('server is listening on port ' + port)
+      console.log(cxt)
       app
         .use(bodyParser())
         .use(json())
@@ -22,5 +23,5 @@ if (!module.parent) {
         .use(route.post('/typeform', typeform.post))
         .listen(port);
     })
-    .catch(console.error.bind(console));
+    .catch(console.error.bind(console))
 }

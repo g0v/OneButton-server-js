@@ -1,80 +1,63 @@
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
-var Base64 = require('js-base64').Base64;
-var httpClient = require('http-client');
-var base = httpClient.base;
-var body = httpClient.body;
-var json = httpClient.json;
-var method = httpClient.method;
-var parseText = httpClient.parseText;
-var createFetch = httpClient.createFetch;
-var fs = require('fs');
-var path = require('path');
+import 'isomorphic-fetch'
+import { Base64 } from 'js-base64'
+import { base, body, json, method, parseText, createFetch } from 'http-client'
+import fs from 'fs'
+import path from 'path'
 
-var apiPath= 'https://ethercalc.org/_'
-var snapshot = fs.readFileSync(path.join(__dirname, './empty.sc'));
+let apiPath= 'https://ethercalc.org/_'
+console.log(__dirname)
+let snapshot = fs.readFileSync(path.resolve(__dirname, './empty.sc'))
 
-var loadRoomList = function(id) {
-  return createFetch(
+export const loadRoomList = id =>
+  createFetch(
     base(apiPath + '/' + id),
     method('GET'),
     parseText()
   )()
-    .then(function(res) {
-      var ret = [];
-      var sc = res.textString;
-      var r = /cell:A(?:\d+):t:(\w+)\ncell:B(?:\d+):t:(.+)\n/g;
-      var m, id, form;
+    .then(res => {
+      let ret = []
+      let sc = res.textString
+      let r = /cell:A(?:\d+):t:(\w+)\ncell:B(?:\d+):t:(.+)\n/g
+      let m, id, form
       while ((m = r.exec(sc)) !== null) {
-        id = m[1];
-        form = JSON.parse(Base64.decode(m[2]));
-        ret.push({ id: id, form: form });
+        id = m[1]
+        form = JSON.parse(Base64.decode(m[2]))
+        ret.push({ id, form })
       }
-      return ret;
-    });
-}
-
-var loadRoom = function(id) {
-  return createFetch(
-    base(apiPath + '/' + id),
-    method('GET'),
-    parseText()
-  )()
-    .then(function(res) {
-      var ret = {};
-      var sc = res.textString;
-      var r = /cell:A(?:\d+):t:(\w+)\ncell:B(?:\d+):t:(.+)\n/g
-      var m, key, value;
-      while ((m = r.exec(sc)) !== null) {
-        key = m[1];
-        value = JSON.parse(Base64.decode(m[2]));
-        ret[key] = value;
-      }
-      return ret;
+      return ret
     })
-}
 
-var createRoom = function(room) {
-  return createFetch(
+export const loadRoom = id =>
+  createFetch(
+    base(apiPath + '/' + id),
+    method('GET'),
+    parseText()
+  )()
+    .then(function(res) {
+      let ret = {}
+      let sc = res.textString
+      let r = /cell:A(?:\d+):t:(\w+)\ncell:B(?:\d+):t:(.+)\n/g
+      let m, key, value;
+      while ((m = r.exec(sc)) !== null) {
+        key = m[1]
+        value = JSON.parse(Base64.decode(m[2]))
+        ret[key] = value
+      }
+      return ret
+    })
+
+export const createRoom = room =>
+  createFetch(
     base(apiPath),
     json({ room, snapshot }),
     method('POST'),
     parseText()
   )();
-}
 
-var appendRow = function(id, csv) {
-  return createFetch(
+export const appendRow = (id, csv) =>
+  createFetch(
     base(apiPath + '/' + id),
     body(csv, 'text/csv'),
     method('POST'),
     parseText()
   )();
-}
-
-module.exports = {
-  loadRoomList: loadRoomList,
-  loadRoom: loadRoom,
-  createRoom: createRoom,
-  appendRow: appendRow
-};

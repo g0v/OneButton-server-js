@@ -8,7 +8,7 @@ var targetPath = path.join(__dirname);
 
 module.exports = {
   entry: {
-    client: ['babel-polyfill', path.join(sourcePath, 'client.jsx')]
+    client: ['babel-polyfill', path.join(sourcePath, 'client/index.jsx')]
   },
   output: {
     path: targetPath,

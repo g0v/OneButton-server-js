@@ -5,7 +5,6 @@ import fs from 'fs'
 import path from 'path'
 
 let apiPath= 'https://ethercalc.org/_'
-console.log(__dirname)
 let snapshot = fs.readFileSync(path.resolve(__dirname, './empty.sc'))
 
 export const loadRoomList = id =>

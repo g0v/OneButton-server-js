@@ -24,11 +24,6 @@ module.exports = {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
       }
     }),
-    /*
-    new webpack.ProvidePlugin({
-      Promise: 'es6-promise'
-    }),
-    */
     new webpack.optimize.OccurenceOrderPlugin()
   ],
   resolve: {

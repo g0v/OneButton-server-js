@@ -6,11 +6,13 @@ var sourcePath = path.join(__dirname, 'src');
 var targetPath = path.join(__dirname);
 
 module.exports = {
-  entry: ['babel-polyfill', path.join(sourcePath, 'index.js')],
+  entry: {
+    server: path.join(sourcePath, 'server.js')
+  },
   output: {
     path: targetPath,
-    filename: 'bundle.js',
-    publicPath: '/webroot/build/js'
+    filename: '[name].bundle.js',
+    publicPath: '/'
   },
   target: 'node',
   node: {
@@ -31,7 +33,7 @@ module.exports = {
   },
   module: {
     loaders: [{
-      test: /\.js?$/,
+      test: /\.js$/,
       loader: 'babel',
       exclude: /node_modules/
     }, {

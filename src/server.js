@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import koa from 'koa'
 import qs from 'koa-qs'
+import spa from 'koa-spa'
 import route from 'koa-route'
 import bodyParser from 'koa-bodyparser'
 import json from 'koa-json'
@@ -24,6 +25,9 @@ if (!module.parent) {
         .use(route.post('/typeform', typeform.post))
         .use(route.get('/oauth', function *() {
           this.body = this.query;
+        }))
+        .use(spa(path.join(__dirname, '../'), {
+          index: 'index.html'
         }))
         .listen(port);
     })

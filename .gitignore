@@ -43,4 +43,4 @@ config.js
 *.swp
 
 config.js
-bundle.js
+*.bundle.js

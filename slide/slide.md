@@ -8,7 +8,7 @@ class: center, middle
 ---
 template: inverse
 
-# OneButton Server
+# OneButton
 
 ---
 template: normal

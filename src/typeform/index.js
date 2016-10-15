@@ -45,8 +45,8 @@ export const put = function *() {
   forms[id] = form
   console.log('form ' + id + ' registered')
 
-  res = yield ethercalc.createRoom(id)
-  console.log('https://ethercalc.org' + res.textString + ' created')
+  id = yield ethercalc.createRoom(id)
+  console.log('https://ethercalc.org/' + id + ' created')
   results[id] = {}
   this.body = null
   this.status = 201
@@ -74,8 +74,8 @@ export const post = function *() {
   }
 
   console.log('result ' + token + ' of form ' + uid + ' received')
-  yield ethercalc.appendRow(uid, token + ',' + Base64.encode(JSON.stringify(result)))
-  console.log('row appended')
+  yield ethercalc.appendRow(uid, [token, Base64.encode(JSON.stringify(result))])
+  console.log('row appended', res)
   results[uid][token] = result
 };
 

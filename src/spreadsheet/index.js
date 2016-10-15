@@ -4,6 +4,7 @@ import { createFetch, base, parseJSON } from 'http-client'
 import fs from 'fs'
 import google from 'googleapis'
 import GoogleAuth from 'google-auth-library'
+import { reduce, zipObj } from 'ramda'
 import config from '../../config'
 
 
@@ -44,25 +45,44 @@ const pToken = readJSON(config.GAPI.token_path)
 
 
 // wrappers
-const filesGet = async fileId => {
+const filesCopy = async (fileId, name, dirId) => {
   let c = await pCredentials
   let t = await pToken
   let auth = await authorize(c, t)
   return new Promise((resolve, reject) =>
-    drive.files.get(
-      { auth, fileId },
+    drive.files.copy(
+      {
+        auth,
+        fileId,
+        resource: {
+          name,
+          parents: [dirId]
+        }
+      },
       (err, res) => err ? reject(err) : resolve(res)
     )
   )
 }
 
-const sheetsGet = async (spreadsheetId) => {
+const sheetsValuesGet = async (spreadsheetId, range, majorDimension) => {
   let c = await pCredentials
   let t = await pToken
   let auth = await authorize(c, t)
   return new Promise((resolve, reject) =>
-    sheets.spreadsheets.get(
-      { auth, spreadsheetId },
+    sheets.spreadsheets.values.get(
+      { auth, spreadsheetId, range, majorDimension },
+      (err, res) => err ? reject(err) : resolve(res)
+    )
+  )
+}
+
+const sheetsValuesAppend = async (spreadsheetId, range, row) => {
+  let c = await pCredentials
+  let t = await pToken
+  let auth = await authorize(c, t)
+  return new Promise((resolve, reject) =>
+    sheets.spreadsheets.values.append(
+      { auth, spreadsheetId, range, values: [row] },
       (err, res) => err ? reject(err) : resolve(res)
     )
   )
@@ -70,10 +90,30 @@ const sheetsGet = async (spreadsheetId) => {
 
 
 
-export const loadRoomList = fileId => undefined
+// :: String -> Promise [{ id: String, form: Form }]
+export const loadRoomList = async fileId => {
+  let { values } = await sheetsValuesGet(fileId, 'A:B:C', 'ROWS')
+  return reduce(
+    (acc, [id, sid, data]) => [...acc, { id, sid, form: Base64.decode(data) }],
+    [],
+    values
+  )
+}
 
-export const loadRoom = id => undefined
+// :: String -> Promise (Map String Result)
+export const loadRoom = async id => {
+  let { values: [keys, values] } = await sheetsValuesGet(fileId, 'A:B', 'COLUMNS')
+  return zipObj(keys, values)
+}
 
-export const createRoom = room => undefined
+// :: String -> Promise String
+export const createRoom = async room => {
+  let { fileId } = await filesCopy(config.template, room, config.parent_dir)
+  return fileId
+}
 
-export const appendRow = (id, row) => undefined
+// :: (String, [String] -> Promise String
+export const appendRow = async (id, row) => {
+  let { spreadsheetId } = await sheetsValuesAppend(id, 'A1:C1', row)
+  return spreadsheetId
+}

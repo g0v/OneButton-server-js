@@ -16,12 +16,13 @@ export const loadRoomList = async rid => {
       parseText()
     )()
   let ret = []
-  let r = /cell:A(?:\d+):t:(\w+)\ncell:B(?:\d+):t:(.+)\n/g
-  let m, id, form
+  let r = /cell:A(?:\d+):t:(\w+)\ncell:B(?:\d+):t:(\w+)\ncell:C(?:\d+):t:(.+)\n/g
+  let m, id, sid, form
   while ((m = r.exec(sc)) !== null) {
     id = m[1]
-    form = JSON.parse(Base64.decode(m[2]))
-    ret.push({ id, form })
+    sid = m[2]
+    form = JSON.parse(Base64.decode(m[3]))
+    ret.push({ id, sid, form })
   }
   return ret
 }

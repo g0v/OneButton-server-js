@@ -4,15 +4,17 @@ import * as ethercalc from '../ethercalc'
 // XXX: lame
 let hubId
 let forms = {}
+let sheets = {}
 let results = {}
 
 export const init = hid => {
-  let _loadAll = ([{ id, form } = {}, ...rs]) =>
+  let _loadAll = ([{ id, sid, form } = {}, ...rs]) =>
     id !== undefined
       ? ethercalc.loadRoom(id)
           .then(room => {
             // XXX: should serialize forms first
             forms[id] = form
+            sheets[id] = sid
             results[id] = room
             return _loadAll(rs)
           })
@@ -22,12 +24,8 @@ export const init = hid => {
 
   return ethercalc.loadRoomList(hid)
     .then(_loadAll)
-    .then(() => ({
-      hubId: hubId,
-      forms: forms,
-      results: results
-    }));
-};
+    .then(() => ({ hubId, forms, sheets, results }));
+}
 
 export const put = function *() {
   let form = this.request.body
@@ -41,13 +39,12 @@ export const put = function *() {
     return
   }
 
-  yield ethercalc.appendRow(hubId, id + ',' + Base64.encode(JSON.stringify(form)))
+  let sid = yield ethercalc.createRoom(id)
+  yield ethercalc.appendRow(hubId, [id, sid, Base64.encode(JSON.stringify(form))])
   forms[id] = form
-  console.log('form ' + id + ' registered')
-
-  id = yield ethercalc.createRoom(id)
-  console.log('https://ethercalc.org/' + id + ' created')
+  sheets[id] = sid
   results[id] = {}
+
   this.body = null
   this.status = 201
 }
@@ -73,16 +70,10 @@ export const post = function *() {
     this.body = { warning: 'missing form: ' + uid }
   }
 
-  console.log('result ' + token + ' of form ' + uid + ' received')
   yield ethercalc.appendRow(uid, [token, Base64.encode(JSON.stringify(result))])
-  console.log('row appended', res)
   results[uid][token] = result
-};
+}
 
 export const get = function *() {
-  this.body = {
-    hubId: hubId,
-    forms: forms,
-    results: results
-  };
+  this.body = { hubId, sheets, forms, results }
 };

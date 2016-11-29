@@ -1,12 +1,7 @@
-export const show = (...args) => console.log(...args) || args[0]
+import fs from 'fs-promise'
+import google from 'googleapis'
 
-export function promisify(f, target = this) {
-  return (function(...args) {
-    return new Promise((resolve, reject) =>
-      f(...args, (err, res) => err ? reject(err) : resolve(res))
-    )
-  }).bind(target)
-}
+export const show = (...args) => console.log(...args) || args[0]
 
 // Google APIs
 const drive = google.drive('v3')
@@ -28,8 +23,8 @@ const authorize = (credentials, token) => new Promise((resolve, reject) => {
   return resolve(oauth2Client)
 })
 
-const pCredentials = readJSON(config.GAPI.secret_path)
-const pToken = readJSON(config.GAPI.token_path)
+const pCredentials = fs.readJson(config.GAPI.secret_path)
+const pToken = fs.readJson(config.GAPI.token_path)
 
 
 

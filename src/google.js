@@ -1,6 +1,6 @@
-import google from 'googleapi'
+import google from 'googleapis'
 import GoogleAuth from 'google-auth-library'
-import { promisify } from './utils'
+import thenify from 'thenify'
 
 const drive = google.drive('v3')
 const sheets = google.sheets('v4')
@@ -19,22 +19,22 @@ const authorize = (credentials, token) => {
   oauth2Client.credentials = token
 
   return oauth2Client
-})
+}
 
-const driveFilesCopy = promisify(drive.files.copy)
-const sheetsValuesGet = promisify(sheets.spreadsheets.values.get)
-const sheetsValuesAppend = promisify(sheets.spreadsheets.values.append)
+const driveFilesCopy = thenify(drive.files.copy)
+const sheetsValuesGet = thenify(sheets.spreadsheets.values.get)
+const sheetsValuesAppend = thenify(sheets.spreadsheets.values.append)
 
 
 
-export default (c, t) => ({
+export default (pCredentials, pToken) => ({
   drive: {
     files: {
       copy: async (fileId, name, dirId) => {
         let c = await pCredentials
         let t = await pToken
         let auth = authorize(c, t)
-        retun driveFilesCopy({
+        return driveFilesCopy({
           auth,
           fileId,
           resource: {

@@ -1,11 +1,11 @@
 import 'isomorphic-fetch'
 import { Base64 } from 'js-base64'
 import { base, body, json, method, parseText, parseJSON, createFetch } from 'http-client'
-import fs from 'fs'
+import fs from 'fs-promise'
 import path from 'path'
 
 let apiPath= 'https://ethercalc.org/_'
-let snapshot = fs.readFileSync(path.resolve(__dirname, './empty.sc'))
+let pSnapshot = fs.readFile(path.resolve(__dirname, './empty.sc'))
 
 // :: String -> Promise [{ id: String, form: Form }]
 export const loadRoomList = async rid => {
@@ -48,6 +48,7 @@ export const loadRoom = async rid => {
 
 // :: String -> Promise String
 export const createRoom = async room => {
+  let snapshot = await pSnapshot
   let res =
     await createFetch(
       base(apiPath),

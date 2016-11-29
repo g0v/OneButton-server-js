@@ -1,5 +1,6 @@
 import { Base64 } from 'js-base64'
-import * as ethercalc from '../ethercalc'
+//import * as backend from '../ethercalc'
+import * as backend from '../spreadsheet'
 
 // XXX: lame
 let hubId
@@ -10,7 +11,7 @@ let results = {}
 export const init = hid => {
   let _loadAll = ([{ id, sid, form } = {}, ...rs]) =>
     id !== undefined
-      ? ethercalc.loadRoom(id)
+      ? backend.loadRoom(id)
           .then(room => {
             // XXX: should serialize forms first
             forms[id] = form
@@ -22,7 +23,7 @@ export const init = hid => {
 
   hubId = hid
 
-  return ethercalc.loadRoomList(hid)
+  return backend.loadRoomList(hid)
     .then(_loadAll)
     .then(() => ({ hubId, forms, sheets, results }));
 }
@@ -39,8 +40,8 @@ export const put = function *() {
     return
   }
 
-  let sid = yield ethercalc.createRoom(id)
-  yield ethercalc.appendRow(hubId, [id, sid, Base64.encode(JSON.stringify(form))])
+  let sid = yield backend.createRoom(id)
+  yield backend.appendRow(hubId, [id, sid, Base64.encode(JSON.stringify(form))])
   forms[id] = form
   sheets[id] = sid
   results[id] = {}
@@ -70,7 +71,7 @@ export const post = function *() {
     this.body = { warning: 'missing form: ' + uid }
   }
 
-  yield ethercalc.appendRow(uid, [token, Base64.encode(JSON.stringify(result))])
+  yield backend.appendRow(uid, [token, Base64.encode(JSON.stringify(result))])
   results[uid][token] = result
 }
 

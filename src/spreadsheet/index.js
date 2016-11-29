@@ -1,17 +1,13 @@
 import { Base64 } from 'js-base64'
 import init from '../google'
-import fs from 'fs'
-import { promisify } from '../utils'
+import fs from 'fs-promise'
 import { reduce, zipObj } from 'ramda'
 import config from '../../config'
 
 
 
-const readFile = promisify(fs.readFile)
-const readJSON = (...args) => readFile(...args).then(JSON.parse.bind(JSON))
-
-const pCredentials = readJSON(config.GAPI.secret_path)
-const pToken = readJSON(config.GAPI.token_path)
+const pCredentials = fs.readJson(config.GAPI.secret_path)
+const pToken = fs.readJson(config.GAPI.token_path)
 const google = init(pCredentials, pToken)
 
 

@@ -11,10 +11,9 @@ let results = {}
 export const init = hid => {
   let _loadAll = ([{ id, sid, form } = {}, ...rs]) =>
     id !== undefined
-      ? backend.loadRoom(id)
+      ? backend.loadRoom(sid)
           .then(room => {
-            // XXX: should serialize forms first
-            forms[id] = form
+            forms[id] = JSON.parse(form)
             sheets[id] = sid
             results[id] = room
             return _loadAll(rs)
@@ -71,7 +70,7 @@ export const post = function *() {
     this.body = { warning: 'missing form: ' + uid }
   }
 
-  yield backend.appendRow(uid, [token, Base64.encode(JSON.stringify(result))])
+  yield backend.appendRow(sheets[uid], [token, Base64.encode(JSON.stringify(result))])
   results[uid][token] = result
 }
 

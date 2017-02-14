@@ -1,5 +1,6 @@
 import fs from 'fs-promise'
 import google from 'googleapis'
+import config from '../config'
 
 export const show = (...args) => console.log(...args) || args[0]
 

@@ -16,8 +16,8 @@ let port = process.env.PORT || 8080
 if (!module.parent) {
   typeform.init(config.TYPEFORM.hub)
     .then(function (cxt) {
-      console.log('server is listening on port ' + port)
-      console.log(cxt)
+      console.log(`server is listening on port ${port} with context:`)
+      console.log(JSON.stringify(cxt, null, 2))
       app
         .use(bodyParser())
         .use(json())

@@ -52,13 +52,24 @@ export default (pCredentials, pToken) => ({
           let c = await pCredentials
           let t = await pToken
           let auth = authorize(c, t)
-          return sheetsValuesGet({ auth, spreadsheetId, range, majorDimension })
+          return sheetsValuesGet({
+            auth,
+            spreadsheetId,
+            range,
+            majorDimension
+          })
         },
         append: async (spreadsheetId, range, row) => {
           let c = await pCredentials
           let t = await pToken
           let auth = authorize(c, t)
-          return sheetsValuesAppend({ auth, spreadsheetId, range, values: [row] })
+          return sheetsValuesAppend({
+            auth,
+            spreadsheetId,
+            valueInputOption: 'RAW',
+            range,
+            resource: { range, values: [row] }
+          })
         }
       }
     }

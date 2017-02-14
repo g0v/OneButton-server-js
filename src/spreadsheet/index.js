@@ -28,7 +28,7 @@ export const loadRoomList = async fileId => {
 // :: String -> Promise (Map String Result)
 export const loadRoom = async fileId => {
   console.log(`load room from sheet ${fileId}`)
-  let { values: [keys = [], values = []] = [] } =
+  let [{ values: [keys = [], values = []] = [] }] =
     await google.sheets.spreadsheets.values.get(fileId, 'A1:B999', 'COLUMNS')
   console.log('room loaded')
   return zipObj(keys, values)

@@ -10,7 +10,7 @@ let results = {}
 
 export const init = hid => {
   let _loadAll = ([{ id, sid, form } = {}, ...rs]) =>
-    id !== undefined
+    id && id !== undefined && sid && sid !== undefined
       ? backend.loadRoom(sid)
           .then(room => {
             forms[id] = JSON.parse(form)

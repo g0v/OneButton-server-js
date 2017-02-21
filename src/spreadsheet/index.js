@@ -28,7 +28,7 @@ export const loadRoomList = async fileId => {
 // :: String -> Promise (Map String Result)
 export const loadRoom = async fileId => {
   console.log(`load room from sheet ${fileId}`)
-  let [{ values: [keys = [], values = []] = [] }] =
+  let [{ values: [keys = [], values = []] = [] } = {}] =
     await google.sheets.spreadsheets.values.get(fileId, 'A1:B999', 'COLUMNS')
   console.log('room loaded')
   return zipObj(keys, values)
@@ -37,16 +37,16 @@ export const loadRoom = async fileId => {
 // :: String -> Promise String
 export const createRoom = async room => {
   console.log('create room')
-  let [{ fileId }] =
-    await google.drive.files.copy(config.template, room, config.parent_dir)
-  console.log(`room created at sheet ${fileId}`)
-  return fileId
+  let [{ id } = {}] =
+    await google.drive.files.copy(config.GAPI.template, room, config.GAPI.parent_dir)
+  console.log(`room created at sheet ${id}`)
+  return id
 }
 
 // :: (String, [String] -> Promise String
 export const appendRow = async (id, row) => {
   console.log('append row')
-  let [{ spreadsheetId }] =
+  let [{ spreadsheetId } = {}] =
     await google.sheets.spreadsheets.values.append(id, 'A1:C1', row)
   console.log(`row appended to sheet ${spreadsheetId}`)
   return spreadsheetId

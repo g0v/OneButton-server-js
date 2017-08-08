@@ -23,6 +23,9 @@ if (!module.parent) {
         .use(json())
         .use(route.put('/typeform', typeform.put))
         .use(route.get('/typeform', typeform.get))
+        .use(route.get('/typeform/:uid', typeform.getForm))
+        .use(route.get('/typeform/:uid/result', typeform.getFormResultList))
+        .use(route.get('/typeform/:uid/result/:token', typeform.getFormResult))
         .use(route.post('/typeform', typeform.post))
         .use(route.get('/oauth', function *() {
           this.body = this.query;

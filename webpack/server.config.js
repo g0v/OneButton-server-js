@@ -2,8 +2,8 @@ var path = require('path');
 var webpack = require('webpack');
 var nodeExternals = require('webpack-node-externals');
 
-var sourcePath = path.join(__dirname, 'src');
-var targetPath = path.join(__dirname);
+var sourcePath = path.join(__dirname, '../src');
+var targetPath = path.join(__dirname, '../');
 
 module.exports = {
   entry: {
@@ -25,20 +25,16 @@ module.exports = {
       'process.env': {
         'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
       }
-    }),
-    new webpack.optimize.OccurenceOrderPlugin()
+    })
   ],
   resolve: {
-    extensions: ['', '.js']
+    extensions: ['.js']
   },
   module: {
-    loaders: [{
+    rules: [{
       test: /\.js$/,
-      loader: 'babel',
+      loader: 'babel-loader',
       exclude: /node_modules/
-    }, {
-      test: /\.json$/,
-      loaders: ['json']
     }]
   }
 };

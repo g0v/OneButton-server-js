@@ -3,12 +3,12 @@ var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
 var precss = require('precss');
 
-var sourcePath = path.join(__dirname, '../src');
+var sourcePath = path.join(__dirname, '../src/client/');
 var targetPath = path.join(__dirname, '../');
 
 module.exports = {
   entry: {
-    client: ['babel-polyfill', path.join(sourcePath, 'client/index.jsx')]
+    client: ['babel-polyfill', path.join(sourcePath, 'index.jsx')]
   },
   output: {
     path: targetPath,
@@ -36,6 +36,13 @@ module.exports = {
       test: /\.jsx?$/,
       loader: 'babel-loader',
       exclude: /node_modules/
+    }, {
+      test: /\.css$/,
+      use: [
+        'style-loader',
+        'css-loader',
+      ],
+      exclude: sourcePath
     }, {
       test: /\.css$/,
       use: [

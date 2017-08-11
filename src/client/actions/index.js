@@ -1,5 +1,5 @@
 import { Nop } from '~/types'
-import axios from 'axios'
+export * as typeform from './typeform'
 
 export const nop = store => async () => {
   const { dispatch } = store

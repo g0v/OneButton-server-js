@@ -1,7 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import { Provider } from 'react-redux'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import MainNav from '~/components/MainNav'
 import FormList from '~/pages/FormList'
 
 import styles from './index.css'
@@ -13,9 +14,7 @@ const Root = ({ id, className, store }) => {
     <Provider store={store}>
       <Router>
         <div id={id} className={classes}>
-          <ul>
-            <li><Link to="/typeform">typeform</Link></li>
-          </ul>
+          <MainNav />
           <div>
             <Route path="/typeform" component={FormList} />
           </div>

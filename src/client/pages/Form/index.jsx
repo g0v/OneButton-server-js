@@ -4,8 +4,19 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import * as actions from '~/actions'
 import * as func from '~/types/func'
+import LongText from '~/components/Typeform/LongText'
+import { map } from 'ramda'
 
 import styles from './index.css'
+
+const renderField = (field) => {
+  switch (field.type) {
+    case 'long_text':
+      return <LongText />
+    default:
+      return <div>unknown field</div>
+  }
+}
 
 class Form extends PureComponent {
   render() {
@@ -13,7 +24,10 @@ class Form extends PureComponent {
     const classes = cx(styles.className, 'one-button--form', className)
 
     return (
-      <span>form</span>
+      <div id={id} className={classes}>
+        <h1>{ form.title }</h1>
+        <ul>{ map(renderField, form.fields) }</ul>
+      </div>
     )
   }
 }

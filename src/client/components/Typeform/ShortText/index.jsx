@@ -3,10 +3,10 @@ import cx from 'classnames'
 
 import styles from './index.css'
 
-class LongText extends PureComponent {
+class ShortText extends PureComponent {
   render() {
     const { id, className, field } = this.props
-    const classes = cx(styles.className, 'one-button--typeform--long-text', className)
+    const classes = cx(styles.className, 'one-button--typeform--short-text', className)
 
     return (
       <div id={id} className={classes}>
@@ -17,4 +17,4 @@ class LongText extends PureComponent {
   }
 }
 
-export default LongText
+export default ShortText

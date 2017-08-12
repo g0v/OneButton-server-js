@@ -13,6 +13,7 @@
     "clean": "rimraf ./*.bundle.js",
     "start:server": "node ./server.bundle.js",
     "start": "npm run clean && npm run build && npm run start:server",
+    "flow": "flow",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -60,6 +61,7 @@
     "babel-preset-react": "^6.22.0",
     "babel-preset-stage-1": "^6.22.0",
     "css-loader": "^0.27.3",
+    "flow-bin": "^0.52.0",
     "google-auth-library": "^0.9.8",
     "googleapis": "^14.0.0",
     "json-loader": "^0.5.4",

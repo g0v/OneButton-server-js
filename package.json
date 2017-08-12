@@ -11,7 +11,8 @@
     "build:client": "NODE_ENV=production webpack --config ./webpack/client.config.js",
     "build": "npm run build:client && npm run build:server",
     "clean": "rimraf ./*.bundle.js",
-    "start": "npm run clean && npm run build && node ./server.bundle.js",
+    "start:server": "node ./server.bundle.js",
+    "start": "npm run clean && npm run build && npm run start:server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import MainNav from '~/components/MainNav'
 import FormList from '~/pages/FormList'
+import Form from '~/pages/Form'
 
 import styles from './index.css'
 
@@ -17,6 +18,7 @@ const Root = ({ id, className, store }) => {
           <MainNav />
           <div>
             <Route path="/typeform" component={FormList} />
+            <Route path="/typeform/:uid" component={Form} />
           </div>
         </div>
       </Router>

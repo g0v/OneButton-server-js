@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
-import { withRouter, Link, Route } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import * as actions from '~/actions'
 import * as func from '~/types/func'
 import { map } from 'ramda'
@@ -10,11 +10,16 @@ import styles from './index.css'
 
 class FormTitle extends PureComponent {
   render() {
-    const { id, className, form = { title: 'loading...' } } = this.props
+    const {
+      id, className,
+      form = { id: '#', title: 'loading...' }
+    } = this.props
     const classes = cx('one-button--form-title', className)
 
     return (
-      <span id={id} className={classes}>{ form.title }</span>
+      <span id={id} className={classes}>
+        <Link to={`/typeform/${form.id}`}>{ form.title }</Link>
+      </span>
     )
   }
 }

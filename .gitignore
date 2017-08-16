@@ -44,3 +44,5 @@ config.js
 
 config.js
 *.bundle.js
+.gapi-token.json
+client_secret.json

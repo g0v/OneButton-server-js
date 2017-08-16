@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Header from '~/components/Header'
 import MainNav from '~/components/MainNav'
 import FormList from '~/pages/FormList'
 import Form from '~/pages/Form'
@@ -15,6 +16,7 @@ const Root = ({ id, className, store }) => {
     <Provider store={store}>
       <Router>
         <div id={id} className={classes}>
+          <Header />
           <MainNav />
           <div>
             <Route path="/typeform" component={FormList} />

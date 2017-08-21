@@ -7,7 +7,7 @@ import styles from './index.css'
 class ShortText extends PureComponent {
   render() {
     const { id, className, field } = this.props
-    const classes = cx(styles.className, 'one-button--typeform--short-text', className)
+    const classes = cx(styles.className, 'ob--typeform--short-text', className)
 
     return (
       <div id={id} className={classes}>

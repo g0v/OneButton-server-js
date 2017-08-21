@@ -5,7 +5,7 @@ import { Header } from 'semantic-ui-react'
 class DangerousHeader extends PureComponent {
   render() {
     const { id, className, field = {} } = this.props
-    const classes = cx('one-button--typeform--dangerous-header', className)
+    const classes = cx('ob--typeform--dangerous-header', className)
     const { question = '', description = '' } = field
 
     return (

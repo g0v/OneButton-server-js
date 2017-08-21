@@ -13,7 +13,7 @@ import styles from './index.css'
 class FormTitle extends PureComponent {
   render() {
     const { id, className, form = F.empty } = this.props
-    const classes = cx('one-button--form-title', className)
+    const classes = cx('ob--form-title', className)
     const { href = '#' } = form && form._links && form._links[1] || {}
 
     return (
@@ -39,7 +39,7 @@ class FormList extends PureComponent {
 
   render() {
     const { id, className, typeform } = this.props
-    const classes = cx(styles.className, 'one-button--form-list', className)
+    const classes = cx(styles.className, 'ob--form-list', className)
 
     return (
       <List id={id} className={classes} divided relaxed>{

@@ -10,7 +10,7 @@ import Form from '~/pages/Form'
 import styles from './index.css'
 
 const Root = ({ id, className, store }) => {
-  const classes = cx(styles.className, 'one-button--root', className)
+  const classes = cx(styles.className, 'ob--root', className)
 
   return (
     <Provider store={store}>

@@ -8,7 +8,7 @@ import styles from './index.css'
 class Rating extends PureComponent {
   render() {
     const { id, className, field } = this.props
-    const classes = cx(styles.className, 'one-button--typeform--rating', className)
+    const classes = cx(styles.className, 'ob--typeform--rating', className)
 
     return (
       <div id={id} className={classes}>

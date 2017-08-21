@@ -15,7 +15,7 @@ const routes = [{
 class Header extends PureComponent {
   render() {
     const { id, className, location: { pathname = '' } = {} } = this.props
-    const classes = cx(styles.className, 'one-button--header', className)
+    const classes = cx(styles.className, 'ob--header', className)
 
     return (
       <Menu id={id} className={classes} fixed="top" inverted>

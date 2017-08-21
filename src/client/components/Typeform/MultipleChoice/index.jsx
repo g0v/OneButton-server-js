@@ -9,7 +9,7 @@ import styles from './index.css'
 class MultipleChoice extends PureComponent {
   render() {
     const { id, className, field } = this.props
-    const classes = cx(styles.className, 'one-button--typeform--multiple-choice', className)
+    const classes = cx(styles.className, 'ob--typeform--multiple-choice', className)
 
     return (
       <div id={id} className={classes}>

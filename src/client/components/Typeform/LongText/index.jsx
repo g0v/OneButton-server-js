@@ -7,7 +7,7 @@ import styles from './index.css'
 class LongText extends PureComponent {
   render() {
     const { id, className, field } = this.props
-    const classes = cx(styles.className, 'one-button--typeform--long-text', className)
+    const classes = cx(styles.className, 'ob--typeform--long-text', className)
 
     return (
       <div id={id} className={classes}>

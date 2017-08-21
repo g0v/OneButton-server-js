@@ -8,7 +8,7 @@ import styles from './index.css'
 class YesNo extends PureComponent {
   render() {
     const { id, className, field } = this.props
-    const classes = cx(styles.className, 'one-button--typeform--yes-no', className)
+    const classes = cx(styles.className, 'ob--typeform--yes-no', className)
 
     return (
       <div id={id} className={classes}>

@@ -43,7 +43,7 @@ const renderFields = compose(
 class Form extends PureComponent {
   render() {
     const { id, className, form = F.empty } = this.props
-    const classes = cx(styles.className, 'one-button--form', className)
+    const classes = cx(styles.className, 'ob--form', className)
 
     return (
       <div id={id} className={classes}>

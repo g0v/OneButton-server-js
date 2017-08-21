@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import cx from 'classnames'
+import DangerousHeader from '../DangerousHeader'
 
 import styles from './index.css'
 
@@ -10,8 +11,7 @@ class ShortText extends PureComponent {
 
     return (
       <div id={id} className={classes}>
-        <div>{ field.question }</div>
-        <div>{ field.description }</div>
+        <DangerousHeader field={field} />
       </div>
     )
   }

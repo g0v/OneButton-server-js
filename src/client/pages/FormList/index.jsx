@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
+import { List } from 'semantic-ui-react'
 import * as actions from '~/actions'
 import * as func from '~/types/func'
 import * as F from '~/types/typeform/form'
@@ -13,11 +14,16 @@ class FormTitle extends PureComponent {
   render() {
     const { id, className, form = F.empty } = this.props
     const classes = cx('one-button--form-title', className)
+    const { href = '#' } = form && form._links && form._links[1] || {}
 
     return (
-      <span id={id} className={classes}>
-        <Link to={`/typeform/${form.id}`}>{ form.title }</Link>
-      </span>
+      <List.Item id={id} className={classes}>
+        <List.Icon name="file text outline" size="large" verticalAlign="middle" />
+        <List.Content>
+          <List.Header as={Link} to={`/typeform/${form.id}`}>{ form.title }</List.Header>
+          <List.Description as="a" href={href} target="_blank">{ href }</List.Description>
+        </List.Content>
+      </List.Item>
     )
   }
 }
@@ -36,12 +42,12 @@ class FormList extends PureComponent {
     const classes = cx(styles.className, 'one-button--form-list', className)
 
     return (
-      <ul id={id} className={classes}>{
+      <List id={id} className={classes} divided relaxed>{
         map(
-          uid => <li><FormTitle form={typeform.results[uid]} /></li>,
+          uid => <FormTitle form={typeform.results[uid]} />,
           typeform.list
         )
-      }</ul>
+      }</List>
     )
   }
 }

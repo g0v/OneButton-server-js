@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import cx from 'classnames'
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { Menu, Container, Dropdown } from 'semantic-ui-react'
 import { map } from 'ramda'
 
 import styles from './index.css'
@@ -17,22 +18,22 @@ class Header extends PureComponent {
     const classes = cx(styles.className, 'one-button--header', className)
 
     return (
-      <div id={id} className={classes}>
-        <Link className={cx(styles.unit, styles.logo)} to="/">OneButton</Link>
-        <ul>{
-          map(
-            r => {
-              const actived = pathname.startsWith(r.route)
-              return (
-                <li><Link className={cx(styles.unit, { actived })} to={r.route}>
-                  { r.name }
-                </Link></li>
-              )
-            },
-            routes
-          )
-        }</ul>
-      </div>
+      <Menu id={id} className={classes} fixed="top" inverted>
+        <Container>
+          <Menu.Item as={Link} header to="/">OneButton</Menu.Item>
+          {
+            map(
+              r => {
+                const actived = pathname.startsWith(r.route)
+                return (
+                  <Menu.Item as={Link} to={r.route}>{ r.name }</Menu.Item>
+                )
+              },
+              routes
+            )
+          }
+        </Container>
+      </Menu>
     )
   }
 }

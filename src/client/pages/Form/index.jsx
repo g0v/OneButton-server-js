@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { Header, Divider } from 'semantic-ui-react'
 import * as actions from '~/actions'
 import * as func from '~/types/func'
 import * as F from '~/types/typeform/form'
@@ -11,7 +12,7 @@ import OpinionScale from '~/components/Typeform/OpinionScale'
 import Rating from '~/components/Typeform/Rating'
 import ShortText from '~/components/Typeform/ShortText'
 import YesNo from '~/components/Typeform/YesNo'
-import { map } from 'ramda'
+import { compose, map, intersperse } from 'ramda'
 
 import styles from './index.css'
 
@@ -34,6 +35,11 @@ const renderField = (field) => {
   }
 }
 
+const renderFields = compose(
+  intersperse(<Divider hidden />),
+  map(renderField)
+)
+
 class Form extends PureComponent {
   render() {
     const { id, className, form = F.empty } = this.props
@@ -41,8 +47,8 @@ class Form extends PureComponent {
 
     return (
       <div id={id} className={classes}>
-        <h1>{ form.title }</h1>
-        <ul>{ map(renderField, form.fields) }</ul>
+        <Header as="h1">{ form.title }</Header>
+        <div>{ renderFields(form.fields) }</div>
       </div>
     )
   }

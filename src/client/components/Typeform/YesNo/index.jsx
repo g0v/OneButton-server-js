@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import cx from 'classnames'
-import { ChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup'
+import { List, Checkbox } from 'semantic-ui-react'
+import DangerousHeader from '../DangerousHeader'
 
 import styles from './index.css'
 
@@ -11,23 +12,11 @@ class YesNo extends PureComponent {
 
     return (
       <div id={id} className={classes}>
-        <div>{ field.question }</div>
-        <div>{ field.description }</div>
-        <ChoiceGroup
-          options={[
-            {
-              key: 'yes',
-              text: '是',
-              disabled: true
-            },
-            {
-              key: 'no',
-              text: '否',
-              disabled: true
-            }
-          ]}
-          required={field.required}
-        />
+        <DangerousHeader field={field} />
+        <List>
+          <List.Item><Checkbox label="是" disabled /></List.Item>
+          <List.Item><Checkbox label="否" disabled /></List.Item>
+        </List>
       </div>
     )
   }

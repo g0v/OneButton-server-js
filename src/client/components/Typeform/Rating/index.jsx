@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import cx from 'classnames'
-import { Rating as FabricRating } from 'office-ui-fabric-react/lib/Rating'
+import { Rating as SRating } from 'semantic-ui-react'
+import DangerousHeader from '../DangerousHeader'
 
 import styles from './index.css'
 
@@ -11,12 +12,10 @@ class Rating extends PureComponent {
 
     return (
       <div id={id} className={classes}>
-        <div>{ field.question }</div>
-        <div>{ field.description }</div>
-        <FabricRating
-          min={1}
-          max={field.steps - 1}
-          rating={null}
+        <DangerousHeader field={field} />
+        <SRating
+          maxRating={field.steps}
+          disabled
         />
       </div>
     )

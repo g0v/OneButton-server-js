@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import cx from 'classnames'
-import { ChoiceGroup } from 'office-ui-fabric-react/lib/ChoiceGroup'
+import { List, Checkbox } from 'semantic-ui-react'
+import DangerousHeader from '../DangerousHeader'
 import { map } from 'ramda'
 
 import styles from './index.css'
@@ -12,15 +13,13 @@ class MultipleChoice extends PureComponent {
 
     return (
       <div id={id} className={classes}>
-        <div>{ field.question }</div>
-        <div>{ field.description }</div>
-        <ChoiceGroup
-          options={map(
-            choice => ({ key: choice.label, text: choice.label, disabled: true }),
+        <DangerousHeader field={field} />
+        <List>{
+          map(
+            choice => <List.Item><Checkbox label={choice.label} disabled /></List.Item>,
             field.choices
-          )}
-          required={field.required}
-        />
+          )
+        }</List>
       </div>
     )
   }

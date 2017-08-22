@@ -1,11 +1,20 @@
-import { List, ResultList, Result } from '~/types/typeform'
+import { FormList, Form, ResultList, Result } from '~/types/typeform'
 import axios from 'axios'
 
-export const list = store => async () => {
+export const formList = store => async () => {
   const { dispatch } = store
 
   const result = await axios.get('/api/typeform').then(r => r.data)
-  dispatch(List(result))
+  dispatch(FormList(result))
+
+  return result
+}
+
+export const form = store => async (uid) => {
+  const { dispatch } = store
+
+  const result = await axios.get(`/api/typeform/${uid}`).then(r => r.data)
+  dispatch(Form(uid, result))
 
   return result
 }
@@ -13,7 +22,7 @@ export const list = store => async () => {
 export const resultList = store => async (uid) => {
   const { dispatch } = store
 
-  const result = await axios.get(`/api/typeform/${uid}`).then(r => r.data)
+  const result = await axios.get(`/api/typeform/${uid}/result`).then(r => r.data)
   dispatch(ResultList(uid, result))
 
   return result

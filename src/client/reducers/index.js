@@ -1,53 +1,94 @@
 import {
-  TYPEFORM_LIST,
+  TYPEFORM_FORM_LIST,
+  TYPEFORM_FORM,
   TYPEFORM_RESULT_LIST,
   TYPEFORM_RESULT
 } from '~/types/typeform'
 
 export const initialState = {
-  typeform: {
-    list: [],
-    results: {}
-  },
-  typeformResult: {}
+  forms: {
+    ids: [],
+    list: {}
+  }
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
 
-    case TYPEFORM_LIST: {
-      const { list } = action
+    case TYPEFORM_FORM_LIST: {
+      const { ids } = action
 
       return {
         ...state,
-        typeform: {
-          ...state.typeform,
-          list
+        forms: {
+          ...state.forms,
+          ids
         }
       }
     }
-    case TYPEFORM_RESULT_LIST: {
-      const { uid, list } = action
+    case TYPEFORM_FORM: {
+      const { uid, form } = action
 
       return {
         ...state,
-        typeform: {
-          ...state.typeform,
-          results: {
-            ...state.typeform.results,
-            [uid]: list
+        forms: {
+          ...state.forms,
+          list: {
+            ...state.forms.list,
+            [uid]: {
+              ...form,
+              results: {
+                ids: [],
+                list: {}
+              }
+            }
+          }
+        }
+      }
+    }
+
+    case TYPEFORM_RESULT_LIST: {
+      const { uid, ids } = action
+      const form = state.forms.list[uid]
+
+      return {
+        ...state,
+        forms: {
+          ...state.forms,
+          list: {
+            ...state.forms.list,
+            [uid]: {
+              ...form,
+              results: {
+                ...form.results,
+                ids
+              }
+            }
           }
         }
       }
     }
     case TYPEFORM_RESULT: {
       const { uid, token, result } = action
+      const form = state.forms.list[uid]
 
       return {
         ...state,
-        typeformResult: {
-          ...state.typeformResult,
-          [token]: result
+        forms: {
+          ...state.forms,
+          list: {
+            ...state.forms.list,
+            [uid]: {
+              ...form,
+              results: {
+                ...form.results,
+                list: {
+                  ...form.results.list,
+                  [token]: result
+                }
+              }
+            }
+          }
         }
       }
     }

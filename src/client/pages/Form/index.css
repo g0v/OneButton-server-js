@@ -1,2 +1,6 @@
 .className {
+  :global(.dropdown .text),
+  :global(.menu .item .text) {
+    font-family: monospace;
+  }
 }
